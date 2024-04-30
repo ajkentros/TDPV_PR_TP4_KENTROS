@@ -53,7 +53,7 @@ public class ControlPortalVida : MonoBehaviour
             //Debug.Log(tiempoJuego + " portalVida 50 " + " tiempoGalaxiaActual = " + tiempoGalaxiaActual + " tiempoGalaxiaRecorrido = " + tiempoGalaxiaRecorrido);
           
             // Llama al método que genera poral de vida
-            //GenerarPortalVida();
+            GenerarPortalVida();
 
             portalVidaGenerado = false;
         }
@@ -64,7 +64,7 @@ public class ControlPortalVida : MonoBehaviour
             //Debug.Log(tiempoJuego + " portalVida 80 " + " tiempoGalaxiaActual = " + tiempoGalaxiaActual + " tiempoGalaxiaRecorrido = " + tiempoGalaxiaRecorrido);
 
             // Llama al método que genera poral de vida
-            //GenerarPortalVida(); 
+            GenerarPortalVida(); 
 
         
             portalVidaGenerado = true;

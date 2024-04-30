@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,12 +14,9 @@ public class CicloDianNoche : MonoBehaviour
 
     [SerializeField] private AnimationCurve transicionCurve; // Referencia a la variable del tipo Curva de interpolación para la transición
 
-    private float transicionDuracion;          // Referencia a la variable duración de la transición entre fondos
-    private float tiempoJuego;                  // Referencia a la variable tiempo de juego
-    private float transicionTimer = 0.0f;       // a la variable temporizador de la transición
-    private float tiempoGalaxiaRecorrido;
-    private float tiempoGalaxiaActual;
-
+    private float transicionDuracion;                   // Referencia a la variable duración de la transición entre fondos
+    private float transicionTimer = 0.0f;               // Referencia a la variable temporizador de la transición
+    private float tiempoGalaxiaActual;                  // Referencia a variable tiempo de galaxia actual
     private readonly float intensidadMax = 1.0f;        // Referencia a la variable intensidad máxima de la luz
     private readonly float intensidadMin = 0.1f;        // Referencia a la variable intensidad mínima de la luz
     
@@ -29,7 +27,7 @@ public class CicloDianNoche : MonoBehaviour
     {
 
         enTransicion = true;
-        enNoche = true;
+        
         fondoNoche.color = new Color(1f, 1f, 1f, 1f);
         fondoDia.color = new Color(1f, 1f, 1f, 0f);
         
@@ -37,34 +35,31 @@ public class CicloDianNoche : MonoBehaviour
 
     void Update()
     {
-        // Obtiene el tiempo actual del juego y el tiempo de la galaxia actual, desde GameManager
-        tiempoJuego = gameManager.EstadoTiempoJuego();
-        tiempoGalaxiaRecorrido = gameManager.EstadoTiempoGalaxiarecorrido();
+        // Obtiene el tiempo de la galaxia actual, desde GameManager
         tiempoGalaxiaActual = gameManager.EstadoTiempoGalaxiaActual();
+        enNoche = gameManager.EstadoEnNoche();
 
         // Calcula la duración de la transición como el 20% del tiempo de la galaxia actual
         transicionDuracion = tiempoGalaxiaActual * 0.2f;
-       
-        
 
+
+        
         // Si está en transición y se cumple la condición para comenzar la transición de noche a día
-        if (tiempoJuego >= (tiempoGalaxiaRecorrido - tiempoGalaxiaActual + tiempoGalaxiaActual * 0.5f))
+        if (enNoche == true && enTransicion == true)
         {
-            Debug.Log("tiempoJuego = " + tiempoJuego + " tiempoGalaxiaRecorrido = " + tiempoGalaxiaRecorrido + " trans = " + tiempoGalaxiaRecorrido * 0.5f);
-            if (enNoche == true)
-            {
-                Debug.Log("noche a día");
-                TransicionNocheADia();
-            }else
-            {
-                Debug.Log("día a noche");
-                TransicionDiaANoche();
-            }
+
+           // Debug.Log("tiempoJuego = " + tiempoJuego + " tiempoGalaxiaRecorrido = " + tiempoGalaxiaRecorrido);
+            //Debug.Log("noche a día");
+            TransicionNocheADia();
 
         }
-         
-            
-        
+        else if(enNoche == false && enTransicion == false)
+        {
+           // Debug.Log("tiempoJuego = " + tiempoJuego + " tiempoGalaxiaRecorrido = " + tiempoGalaxiaRecorrido);
+            //Debug.Log("día a noche");
+            TransicionDiaANoche();
+           
+        }
         
     }
 
@@ -87,8 +82,7 @@ public class CicloDianNoche : MonoBehaviour
         if (transicionTimer >= transicionDuracion)
         {
             enTransicion = false;
-            if (tiempoJuego > tiempoGalaxiaRecorrido)
-            { enNoche = false; }
+
             transicionTimer = 0.0f;
         }
     }
@@ -112,7 +106,7 @@ public class CicloDianNoche : MonoBehaviour
         if (transicionTimer >= transicionDuracion)
         {
             enTransicion = true;
-            enNoche = true;
+
             transicionTimer = 0.0f;
         }
     }

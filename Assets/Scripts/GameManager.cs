@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.PlayerSettings;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private bool gameOver;                      // Referencia variable de activación fin del juego 
     private bool nivel;                         // Referencia variable de activación de nuevo nivel
     private bool ganaste;                       // Referencia variable ganaste = true (ganaste), flase (perdiste)
+    private bool enNoche;
     private float tiempoJuego;                  // Referencia variable tiempo transcurrido en el juego
     private float tiempoGalaxiaRecorrido;       // Referencia variable tiempo de recorrido de la galaxia
     private int numeroGalaxiaActual;            // Referencia variable que cuenta el numero de galaxia o nivel del juego
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
         juegoCorriendo = true;
         gameOver = false;
         nivel = false;
+        enNoche = false;
         numeroGalaxiaActual = 1;
     }
     
@@ -147,10 +149,15 @@ public class GameManager : MonoBehaviour
             juegoCorriendo = false;
             nivel = true;
             gameOver = false;
-
+            enNoche = false;
         }
 
-        
+        if (tiempoJuego >= (tiempoGalaxiaRecorrido - tiempoGalaxiaActual + tiempoGalaxiaActual * 0.5f))
+        {
+            enNoche = true;
+        }
+
+
 
     }
 
@@ -294,4 +301,9 @@ public class GameManager : MonoBehaviour
     {
         return tiempoGalaxiaRecorrido;
     }
+
+    public bool EstadoEnNoche()
+    {
+        return enNoche;
+    }    
 }
